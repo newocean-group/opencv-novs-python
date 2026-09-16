@@ -7,7 +7,6 @@
 #include <cmath>
 #include <iostream>
 #include <opencv2/imgproc.hpp>
-#include <opencv2/imgcodecs.hpp>
 #ifdef _OPENMP
 #include <omp.h>
 #endif
