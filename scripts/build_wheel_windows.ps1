@@ -19,7 +19,13 @@ $env:ENABLE_CONTRIB = "1"
 if ($Headless) { $env:ENABLE_HEADLESS = "1" }
 "1" | Set-Content contrib.enabled -NoNewline
 
-& $Python -m pip install --upgrade pip scikit-build numpy wheel
+& $Python -m pip install --upgrade pip scikit-build wheel
+& $Python -m pip install "numpy==2.0.2"
+# Stale _skbuild caches pip temp paths for NumPy headers; wipe before wheel build.
+if (Test-Path "_skbuild") {
+    Write-Host "Removing stale _skbuild (NumPy header paths from prior pip env)..."
+    Remove-Item -Recurse -Force "_skbuild"
+}
 & $Python -m pip wheel . -w dist -v --no-deps
 
 Write-Host "`nWheel(s) in: $root\dist"
