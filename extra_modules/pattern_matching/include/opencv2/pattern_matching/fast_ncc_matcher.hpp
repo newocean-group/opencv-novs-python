@@ -10,28 +10,28 @@
 
 namespace cv {
     namespace pattern_matching {
-        struct MatchInfo {
-            double score;
-            double angle;
-            double scale;    // isotropic shortcut; avg when aniso
-            double scaleR;
-            double scaleC;
-            cv::Point2d position;
-            int modelId;
-            MatchInfo()
+        struct CV_EXPORTS_W MatchInfo {
+            CV_PROP_RW double score;
+            CV_PROP_RW double angle;
+            CV_PROP_RW double scale;    // isotropic shortcut; avg when aniso
+            CV_PROP_RW double scaleR;
+            CV_PROP_RW double scaleC;
+            CV_PROP_RW cv::Point2d position;
+            CV_PROP_RW int modelId;
+            CV_WRAP MatchInfo()
                 : score(-1.0), angle(0.0), scale(1.0), scaleR(1.0), scaleC(1.0)
                 , position(0, 0), modelId(0) {}
-            MatchInfo(double s, double a, cv::Point2d p,
+            CV_WRAP MatchInfo(double s, double a, cv::Point2d p,
                       double sc = 1.0, int mid = 0, double scR = 1.0, double scC = 1.0)
                 : score(s), angle(a), scale(sc), scaleR(scR), scaleC(scC)
                 , position(p), modelId(mid) {}
         };
 
-        class FastNCCMatcher : public cv::Algorithm {
+        class CV_EXPORTS_W FastNCCMatcher : public cv::Algorithm {
         public:
-            static cv::Ptr<FastNCCMatcher> create();
+            CV_WRAP static cv::Ptr<FastNCCMatcher> create();
 
-            static std::vector<MatchInfo> MatchTemplate(
+            CV_WRAP static std::vector<MatchInfo> MatchTemplate(
                 cv::InputArray source,
                 cv::InputArray templateImg,
                 double scoreThreshold = 0.7,
@@ -41,25 +41,25 @@ namespace cv {
                 int maxTargets = 5
             );
 
-            virtual bool setTemplate(cv::InputArray templateImg) = 0;
-            virtual bool train(int numLevels, int minReducedArea = 256) = 0;
+            CV_WRAP virtual bool setTemplate(cv::InputArray templateImg) = 0;
+            CV_WRAP virtual bool train(int numLevels, int minReducedArea = 256) = 0;
             // minPyramidLevel: stop refinement at this level (0 = refine to full resolution)
-            virtual std::vector<MatchInfo> match(cv::InputArray source, int numLevels, int maxTargets = 5, int minPyramidLevel = 0) = 0;
-            virtual void setAngleRange(double minAngle, double maxAngle) = 0;
-            virtual void setScoreThreshold(double threshold) = 0;
-            virtual void setMaxOverlap(double overlap) = 0;
+            CV_WRAP virtual std::vector<MatchInfo> match(cv::InputArray source, int numLevels, int maxTargets = 5, int minPyramidLevel = 0) = 0;
+            CV_WRAP virtual void setAngleRange(double minAngle, double maxAngle) = 0;
+            CV_WRAP virtual void setScoreThreshold(double threshold) = 0;
+            CV_WRAP virtual void setMaxOverlap(double overlap) = 0;
 
 
-            virtual double getMinAngle() const = 0;
-            virtual double getMaxAngle() const = 0;
-            virtual double getScoreThreshold() const = 0;
-            virtual double getMaxOverlap() const = 0;
+            CV_WRAP virtual double getMinAngle() const = 0;
+            CV_WRAP virtual double getMaxAngle() const = 0;
+            CV_WRAP virtual double getScoreThreshold() const = 0;
+            CV_WRAP virtual double getMaxOverlap() const = 0;
 
 
-            virtual void setNumLevels(int numLevels) = 0;
-            virtual int getNumLevels() const = 0;
-            virtual void setNumLevelsForSrc(int numLevles) = 0;
-            virtual int getNumLevelsForSrc() const = 0;
+            CV_WRAP virtual void setNumLevels(int numLevels) = 0;
+            CV_WRAP virtual int getNumLevels() const = 0;
+            CV_WRAP virtual void setNumLevelsForSrc(int numLevles) = 0;
+            CV_WRAP virtual int getNumLevelsForSrc() const = 0;
 
             virtual void setTemplatePyramid(const std::vector<cv::Mat>& templatePyramid) = 0;
             virtual void setVecTemplMean(const std::vector<cv::Scalar>& vecTemplMean) = 0;
@@ -73,7 +73,7 @@ namespace cv {
             virtual std::vector<double> getVecTemplInvArea() const = 0;
             virtual std::vector<bool> getVecResultEqual1() const = 0;
 
-            virtual bool getIsLearned() const = 0;
+            CV_WRAP virtual bool getIsLearned() const = 0;
 
 
             virtual ~FastNCCMatcher() {}

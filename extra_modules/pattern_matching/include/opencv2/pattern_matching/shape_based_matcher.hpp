@@ -122,127 +122,121 @@ namespace cv {
 
         // ---------- Public matcher class ----------
 
-        class ShapeBasedMatcher : public cv::Algorithm {
+        class CV_EXPORTS_W ShapeBasedMatcher : public cv::Algorithm {
         public:
-            static cv::Ptr<ShapeBasedMatcher> create();
+            CV_WRAP static cv::Ptr<ShapeBasedMatcher> create();
 
             // Training inputs
-            virtual bool setTemplate(cv::InputArray templateImg, cv::InputArray mask) = 0;
-            virtual void clearTemplates() = 0;
-            virtual int addTemplate(cv::InputArray templateImg, cv::InputArray mask,
+            CV_WRAP virtual bool setTemplate(cv::InputArray templateImg, cv::InputArray mask) = 0;
+            CV_WRAP virtual void clearTemplates() = 0;
+            CV_WRAP virtual int addTemplate(cv::InputArray templateImg, cv::InputArray mask,
                                     const std::string& name = std::string()) = 0;
-            virtual int numModels() const = 0;
-            virtual int numPoseModels() const = 0;
+            CV_WRAP virtual int numModels() const = 0;
+            CV_WRAP virtual int numPoseModels() const = 0;
 
-            virtual void setOrigin(double x, double y) = 0;
-            virtual double getOriginX() const = 0;
-            virtual double getOriginY() const = 0;
-            virtual void resetOrigin() = 0;
+            CV_WRAP virtual void setOrigin(double x, double y) = 0;
+            CV_WRAP virtual double getOriginX() const = 0;
+            CV_WRAP virtual double getOriginY() const = 0;
+            CV_WRAP virtual void resetOrigin() = 0;
 
             // Extra offset added to find() position (external frame calibration).
-            virtual void setPositionBias(double x, double y) = 0;
-            virtual double getPositionBiasX() const = 0;
-            virtual double getPositionBiasY() const = 0;
+            CV_WRAP virtual void setPositionBias(double x, double y) = 0;
+            CV_WRAP virtual double getPositionBiasX() const = 0;
+            CV_WRAP virtual double getPositionBiasY() const = 0;
 
             // Halcon §2.4.1 find hint: narrow belt search around expected (col, row).
-            virtual void setFindHint(double col, double row) = 0;
-            virtual void clearFindHint() = 0;
-            virtual bool hasFindHint() const = 0;
-            virtual void setTrackLastFind(bool enable) = 0;
-            virtual bool getTrackLastFind() const = 0;
+            CV_WRAP virtual void setFindHint(double col, double row) = 0;
+            CV_WRAP virtual void clearFindHint() = 0;
+            CV_WRAP virtual bool hasFindHint() const = 0;
+            CV_WRAP virtual void setTrackLastFind(bool enable) = 0;
+            CV_WRAP virtual bool getTrackLastFind() const = 0;
 
             // Halcon find NumLevels second value: finest pyramid level to refine (0=L0, 1=L1, …).
-            virtual void setFindLowestPyramidLevel(int level) = 0;
-            virtual int getFindLowestPyramidLevel() const = 0;
+            CV_WRAP virtual void setFindLowestPyramidLevel(int level) = 0;
+            CV_WRAP virtual int getFindLowestPyramidLevel() const = 0;
 
-            virtual void setAngleRange(double minAngle, double maxAngle) = 0;
-            virtual void setAngleStep(double step) = 0;
-            virtual double getMinAngle() const = 0;
-            virtual double getMaxAngle() const = 0;
-            virtual double getAngleStep() const = 0;
-            virtual double getEffectiveAngleStep() const = 0;
+            CV_WRAP virtual void setAngleRange(double minAngle, double maxAngle) = 0;
+            CV_WRAP virtual void setAngleStep(double step) = 0;
+            CV_WRAP virtual double getMinAngle() const = 0;
+            CV_WRAP virtual double getMaxAngle() const = 0;
+            CV_WRAP virtual double getAngleStep() const = 0;
+            CV_WRAP virtual double getEffectiveAngleStep() const = 0;
 
-            virtual void setScaleRange(double minScale, double maxScale, double step) = 0;
-            virtual void setAnisoScaleRange(double minScaleR, double maxScaleR, double stepR,
+            CV_WRAP virtual void setScaleRange(double minScale, double maxScale, double step) = 0;
+            CV_WRAP virtual void setAnisoScaleRange(double minScaleR, double maxScaleR, double stepR,
                                             double minScaleC, double maxScaleC, double stepC) = 0;
-            virtual double getMinScaleR() const = 0;
-            virtual double getMaxScaleR() const = 0;
-            virtual double getScaleStepR() const = 0;
-            virtual double getMinScaleC() const = 0;
-            virtual double getMaxScaleC() const = 0;
-            virtual double getScaleStepC() const = 0;
-            virtual bool getAnisoScaleEnabled() const = 0;
+            CV_WRAP virtual double getMinScaleR() const = 0;
+            CV_WRAP virtual double getMaxScaleR() const = 0;
+            CV_WRAP virtual double getScaleStepR() const = 0;
+            CV_WRAP virtual double getMinScaleC() const = 0;
+            CV_WRAP virtual double getMaxScaleC() const = 0;
+            CV_WRAP virtual double getScaleStepC() const = 0;
+            CV_WRAP virtual bool getAnisoScaleEnabled() const = 0;
 
-            virtual bool setContour(cv::InputArray points, cv::InputArray gradients) = 0;
-            virtual void setContourRefSize(int width, int height) = 0;
-            virtual void setCropTemplateToMask(bool enable) = 0;
-            virtual bool getCropTemplateToMask() const = 0;
+            CV_WRAP virtual bool setContour(cv::InputArray points, cv::InputArray gradients) = 0;
+            CV_WRAP virtual void setContourRefSize(int width, int height) = 0;
+            CV_WRAP virtual void setCropTemplateToMask(bool enable) = 0;
+            CV_WRAP virtual bool getCropTemplateToMask() const = 0;
 
-            virtual void setUseIcpRefine(bool enable) = 0;
-            virtual bool getUseIcpRefine() const = 0;
-            virtual void setIcpMaxIterations(int n) = 0;
-            virtual int getIcpMaxIterations() const = 0;
+            CV_WRAP virtual void setUseIcpRefine(bool enable) = 0;
+            CV_WRAP virtual bool getUseIcpRefine() const = 0;
+            CV_WRAP virtual void setIcpMaxIterations(int n) = 0;
+            CV_WRAP virtual int getIcpMaxIterations() const = 0;
 
-            virtual double getMinScale() const = 0;
-            virtual double getMaxScale() const = 0;
-            virtual double getScaleStep() const = 0;
+            CV_WRAP virtual double getMinScale() const = 0;
+            CV_WRAP virtual double getMaxScale() const = 0;
+            CV_WRAP virtual double getScaleStep() const = 0;
 
             // Match-time tuning (Halcon-like)
-            virtual void setNumPyramidLevels(int n) = 0;
-            virtual int getNumPyramidLevels() const = 0;
-            virtual int getEffectiveNumPyramidLevels() const = 0;
-            virtual void setGreediness(double g) = 0;       // 0..1 (0=thorough, 1=aggressive)
-            virtual double getGreediness() const = 0;
-            virtual void setMaxOverlap(double overlap) = 0; // 0..1 rotated-rect IoU NMS
-            virtual double getMaxOverlap() const = 0;
-            virtual void setUseSubPixel(bool enable) = 0;
-            virtual bool getUseSubPixel() const = 0;
-            virtual void setSubPixelMode(ShapeSubPixelMode mode) = 0;
-            virtual ShapeSubPixelMode getSubPixelMode() const = 0;
-            virtual void setFindTimeoutMs(int timeoutMs) = 0;
-            virtual int getFindTimeoutMs() const = 0;
-            virtual void setMinContrast(float c) = 0;       // gradient magnitude floor for edges
-            virtual float getMinContrast() const = 0;
-            virtual void setNumFeatures(int n) = 0;         // edges kept per pyramid level
-            virtual int getNumFeatures() const = 0;
+            CV_WRAP virtual void setNumPyramidLevels(int n) = 0;
+            CV_WRAP virtual int getNumPyramidLevels() const = 0;
+            CV_WRAP virtual int getEffectiveNumPyramidLevels() const = 0;
+            CV_WRAP virtual void setGreediness(double g) = 0;       // 0..1 (0=thorough, 1=aggressive)
+            CV_WRAP virtual double getGreediness() const = 0;
+            CV_WRAP virtual void setMaxOverlap(double overlap) = 0; // 0..1 rotated-rect IoU NMS
+            CV_WRAP virtual double getMaxOverlap() const = 0;
+            CV_WRAP virtual void setUseSubPixel(bool enable) = 0;
+            CV_WRAP virtual bool getUseSubPixel() const = 0;
+            CV_WRAP virtual void setSubPixelMode(ShapeSubPixelMode mode) = 0;
+            CV_WRAP virtual ShapeSubPixelMode getSubPixelMode() const = 0;
+            CV_WRAP virtual void setFindTimeoutMs(int timeoutMs) = 0;
+            CV_WRAP virtual int getFindTimeoutMs() const = 0;
+            CV_WRAP virtual void setMinContrast(float c) = 0;       // gradient magnitude floor for edges
+            CV_WRAP virtual float getMinContrast() const = 0;
+            CV_WRAP virtual void setNumFeatures(int n) = 0;         // edges kept per pyramid level
+            CV_WRAP virtual int getNumFeatures() const = 0;
 
-            virtual void setMetric(ShapeMatchMetric metric) = 0;
-            virtual ShapeMatchMetric getMetric() const = 0;
+            CV_WRAP virtual void setMetric(ShapeMatchMetric metric) = 0;
+            CV_WRAP virtual ShapeMatchMetric getMetric() const = 0;
             // Back-compat wrappers around setMetric(UsePolarity / IgnoreLocalPolarity).
-            virtual void setUsePolarity(bool enable) = 0;
-            virtual bool getUsePolarity() const = 0;
+            CV_WRAP virtual void setUsePolarity(bool enable) = 0;
+            CV_WRAP virtual bool getUsePolarity() const = 0;
 
             // Model lifecycle
-            virtual bool train() = 0;
-            virtual bool saveModel(const std::string& path) const = 0;
-            virtual bool loadModel(const std::string& path) = 0;
+            CV_WRAP virtual bool train() = 0;
+            CV_WRAP virtual bool saveModel(const std::string& path) const = 0;
+            CV_WRAP virtual bool loadModel(const std::string& path) = 0;
 
             // Matching
-            virtual std::vector<MatchInfo> find(cv::InputArray source,
+            CV_WRAP virtual std::vector<MatchInfo> find(cv::InputArray source,
                                                 float scoreThreshold,
                                                 int maxTargets,
                                                 cv::Rect searchRegion = cv::Rect(),
                                                 cv::InputArray searchMask = cv::noArray()) = 0;
 
-            virtual bool isTrained() const = 0;
-            virtual int numTemplates() const = 0; // alias for numModels()
+            CV_WRAP virtual bool isTrained() const = 0;
+            CV_WRAP virtual int numTemplates() const = 0; // alias for numModels()
 
-            virtual int getFeatures(double angle, int level, cv::OutputArray out,
+            CV_WRAP virtual int getFeatures(double angle, int level, cv::OutputArray out,
                                     double scaleR = 1.0, double scaleC = 1.0,
                                     int modelIndex = 0) const = 0;
 
             // Halcon get_shape_model_contours: N×2 CV_32F contour points.
             // When transformToImage is true, applies pose (poseX, poseY, poseAngleDeg).
-            virtual int getShapeModelContours(double angle, int level, cv::OutputArray out,
+            CV_WRAP virtual int getShapeModelContours(double angle, int level, cv::OutputArray out,
                                               double scaleR, double scaleC, int modelIndex,
                                               double poseX, double poseY, double poseAngleDeg,
                                               bool transformToImage) const = 0;
-
-            // Halcon inspect_shape_model equivalent: one BGR image per pyramid level
-            // with edge features drawn. Returns number of levels written.
-            virtual int inspectModel(int modelIndex,
-                                     std::vector<cv::Mat>& levelImages,
-                                     std::vector<int>& featureCounts) const = 0;
 
             virtual ~ShapeBasedMatcher() {}
         };

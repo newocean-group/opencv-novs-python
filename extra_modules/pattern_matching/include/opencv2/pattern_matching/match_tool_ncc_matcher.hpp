@@ -11,11 +11,11 @@
 namespace cv {
     namespace pattern_matching {
 
-        class MatchToolNCCMatcher : public cv::Algorithm {
+        class CV_EXPORTS_W MatchToolNCCMatcher : public cv::Algorithm {
         public:
-            static cv::Ptr<MatchToolNCCMatcher> create();
+            CV_WRAP static cv::Ptr<MatchToolNCCMatcher> create();
 
-            static std::vector<MatchInfo> MatchTemplate(
+            CV_WRAP static std::vector<MatchInfo> MatchTemplate(
                 cv::InputArray source,
                 cv::InputArray templateImg,
                 int numLevels,
@@ -27,26 +27,26 @@ namespace cv {
                 bool useSubPixel = false
             );
 
-            virtual bool setTemplate(cv::InputArray templateImg) = 0;
-            virtual bool train(int numLevels, int minReducedArea = 256) = 0;
+            CV_WRAP virtual bool setTemplate(cv::InputArray templateImg) = 0;
+            CV_WRAP virtual bool train(int numLevels, int minReducedArea = 256) = 0;
             // minPyramidLevel: stop refinement at this level (0 = refine to full resolution)
-            virtual std::vector<MatchInfo> match(cv::InputArray source, int numLevels, int maxTargets = 5, int minPyramidLevel = 0) = 0;
-            virtual void setAngleRange(double minAngle, double maxAngle) = 0;
-            virtual void setScoreThreshold(double threshold) = 0;
-            virtual void setMaxOverlap(double overlap) = 0;
+            CV_WRAP virtual std::vector<MatchInfo> match(cv::InputArray source, int numLevels, int maxTargets = 5, int minPyramidLevel = 0) = 0;
+            CV_WRAP virtual void setAngleRange(double minAngle, double maxAngle) = 0;
+            CV_WRAP virtual void setScoreThreshold(double threshold) = 0;
+            CV_WRAP virtual void setMaxOverlap(double overlap) = 0;
 
-            virtual void setUseSubPixel(bool enable) = 0;
-            virtual bool getUseSubPixel() const = 0;
+            CV_WRAP virtual void setUseSubPixel(bool enable) = 0;
+            CV_WRAP virtual bool getUseSubPixel() const = 0;
 
-            virtual double getMinAngle() const = 0;
-            virtual double getMaxAngle() const = 0;
-            virtual double getScoreThreshold() const = 0;
-            virtual double getMaxOverlap() const = 0;
+            CV_WRAP virtual double getMinAngle() const = 0;
+            CV_WRAP virtual double getMaxAngle() const = 0;
+            CV_WRAP virtual double getScoreThreshold() const = 0;
+            CV_WRAP virtual double getMaxOverlap() const = 0;
 
-            virtual void setNumLevels(int numLevels) = 0;
-            virtual int getNumLevels() const = 0;
-            virtual void setNumLevelsForSrc(int numLevels) = 0;
-            virtual int getNumLevelsForSrc() const = 0;
+            CV_WRAP virtual void setNumLevels(int numLevels) = 0;
+            CV_WRAP virtual int getNumLevels() const = 0;
+            CV_WRAP virtual void setNumLevelsForSrc(int numLevels) = 0;
+            CV_WRAP virtual int getNumLevelsForSrc() const = 0;
 
             virtual void setTemplatePyramid(const std::vector<cv::Mat>& templatePyramid) = 0;
             virtual void setVecTemplMean(const std::vector<cv::Scalar>& vecTemplMean) = 0;
@@ -60,7 +60,7 @@ namespace cv {
             virtual std::vector<double> getVecTemplInvArea() const = 0;
             virtual std::vector<bool> getVecResultEqual1() const = 0;
 
-            virtual bool getIsLearned() const = 0;
+            CV_WRAP virtual bool getIsLearned() const = 0;
 
             virtual ~MatchToolNCCMatcher() {}
         };
