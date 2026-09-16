@@ -238,6 +238,11 @@ namespace cv {
                                               double poseX, double poseY, double poseAngleDeg,
                                               bool transformToImage) const = 0;
 
+            // C++ only (vector outputs not wrapped for Python).
+            virtual int inspectModel(int modelIndex,
+                                     std::vector<cv::Mat>& levelImages,
+                                     std::vector<int>& featureCounts) const = 0;
+
             virtual ~ShapeBasedMatcher() {}
         };
 
