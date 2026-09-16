@@ -2,7 +2,7 @@
 #ifndef OPENCV_PATTERN_MATCHING_MATCH_TOOL_NCC_MATCHER_H
 #define OPENCV_PATTERN_MATCHING_MATCH_TOOL_NCC_MATCHER_H
 
-#include "fast_ncc_matcher.h"
+#include "opencv2/pattern_matching/fast_ncc_matcher.hpp"
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 #include <vector>
