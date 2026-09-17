@@ -10,6 +10,6 @@
 [submodule "opencv_extra"]
 	path = opencv_extra
 	url = https://github.com/opencv/opencv_extra.git
-[submodule "extra_modules/pattern_matching"]
-	path = extra_modules/pattern_matching
+[submodule "pattern_matching"]
+	path = pattern_matching
 	url = https://github.com/newocean-group/opencv-novs-pattern-matching.git

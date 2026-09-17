@@ -10,7 +10,7 @@ Set-Location $root
 
 if (-not (Test-Path "opencv\CMakeLists.txt")) {
     Write-Host "Initializing submodules..."
-    git submodule update --init --depth 1 opencv opencv_contrib extra_modules/pattern_matching
+    git submodule update --init --depth 1 opencv opencv_contrib pattern_matching
 }
 
 Write-Host "OpenCV version:"

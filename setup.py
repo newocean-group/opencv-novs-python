@@ -513,14 +513,14 @@ def get_and_set_info(contrib, headless, rolling, ci_build):
 
 
 def get_opencv_extra_modules_path():
-    """opencv_contrib modules + New Ocean extra_modules (pattern_matching)."""
+    """opencv_contrib modules + New Ocean pattern_matching submodule."""
     paths = []
     contrib_modules = os.path.abspath("opencv_contrib/modules")
-    extra_modules = os.path.abspath("extra_modules")
+    pattern_matching = os.path.abspath("pattern_matching")
     if os.path.isdir(contrib_modules):
         paths.append(contrib_modules)
-    if os.path.isdir(extra_modules):
-        paths.append(extra_modules)
+    if os.path.isdir(pattern_matching):
+        paths.append(pattern_matching)
     return ";".join(paths)
 
 
