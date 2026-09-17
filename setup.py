@@ -56,6 +56,9 @@ def main():
                 g.run_command(
                     ["submodule", "update", "--init", "--recursive", "--remote", "opencv_contrib"]
                 )
+                g.run_command(
+                    ["submodule", "update", "--init", "--recursive", "--remote", "pattern_matching"]
+                )
         else:
             g.run_command(
                 ["submodule", "update", "--init", "--recursive", cmake_source_dir]
@@ -64,6 +67,9 @@ def main():
             if build_contrib:
                 g.run_command(
                     ["submodule", "update", "--init", "--recursive", "opencv_contrib"]
+                )
+                g.run_command(
+                    ["submodule", "update", "--init", "--recursive", "pattern_matching"]
                 )
 
     package_version, build_contrib, build_headless, build_rolling = get_and_set_info(
