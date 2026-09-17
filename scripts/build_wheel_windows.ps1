@@ -27,6 +27,13 @@ if (-not $Incremental -and (Test-Path "_skbuild")) {
     Write-Host "Removing stale _skbuild (NumPy header paths from prior pip env)..."
     Remove-Item -Recurse -Force "_skbuild"
 }
+elseif ($Incremental) {
+    $cmakeCache = "_skbuild\win-amd64-3.12\cmake-build\CMakeCache.txt"
+    if (Test-Path $cmakeCache) {
+        Write-Host "Incremental: dropping CMakeCache to refresh NumPy/bindings paths..."
+        Remove-Item -Force $cmakeCache
+    }
+}
 & $Python -m pip wheel . -w dist -v --no-deps
 
 Write-Host "`nWheel(s) in: $root\dist"
