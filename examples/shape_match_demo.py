@@ -1,4 +1,4 @@
-"""Minimal shape-based match demo — requires OpenCvPython build with pattern_matching."""
+"""Minimal shape-based match demo — requires opencv-novs-python build with opencv_novs."""
 import sys
 import cv2
 

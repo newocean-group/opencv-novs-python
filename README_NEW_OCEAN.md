@@ -15,20 +15,20 @@ Same algorithms as OpenCvSharp `OpenCvSharpExtern`:
 | MatchTool NCC | `MatchToolNCCMatcher` | `cv2.pattern_matching.MatchToolNCCMatcher_create()` |
 | Shape-based (Halcon-style) | `ShapeBasedMatcher` | `cv2.pattern_matching.ShapeBasedMatcher_create()` |
 
-Native sources live in `pattern_matching/` submodule (~9.4k lines C++). Sync from OpenCvSharp:
+Native sources live in `opencv_novs/` submodule (~9.4k lines C++). Sync from OpenCvSharp:
 
 ```powershell
 .\scripts\sync_from_opencvsharp.ps1
 ```
 
-## Build (contrib + pattern_matching)
+## Build (contrib + opencv_novs)
 
 Requires: Python 3.9+, CMake, Visual Studio Build Tools (Windows) or gcc/clang (Linux), Git.
 
 ```powershell
-git submodule update --init --recursive opencv opencv_contrib pattern_matching
+git submodule update --init --recursive opencv opencv_contrib opencv_novs
 pip install --upgrade pip scikit-build numpy
-# contrib.enabled in repo root enables opencv-contrib modules + pattern_matching
+# contrib.enabled in repo root enables opencv-contrib modules + opencv_novs
 pip install . -v
 ```
 
@@ -39,7 +39,7 @@ $env:ENABLE_CONTRIB = "1"
 pip install . -v
 ```
 
-Wheel name follows upstream (`opencv-contrib-python` unless `OPENCV_PYTHON_PACKAGE_NAME` is set).
+Wheel package name: **`opencv-novs-python`** (`opencv_novs_python-*.whl`; override via `OPENCV_PYTHON_PACKAGE_NAME`).
 
 ## Quick example
 
@@ -62,8 +62,8 @@ See [docs/PatternMatching.md](docs/PatternMatching.md) for tuning (greediness, M
 OpenCvPython/                 # this fork (opencv-python CI + packaging)
   opencv/                     # submodule — upstream OpenCV
   opencv_contrib/             # submodule — upstream contrib
-  pattern_matching/           # submodule — New Ocean pattern matcher (opencv-novs)
-  contrib.enabled             # default ON: build contrib + pattern_matching
+  opencv_novs/                # submodule — New Ocean pattern matcher (opencv-novs)
+  contrib.enabled             # default ON: build contrib + opencv_novs
   scripts/sync_from_opencvsharp.ps1
 ```
 

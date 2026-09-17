@@ -57,7 +57,7 @@ def main():
                     ["submodule", "update", "--init", "--recursive", "--remote", "opencv_contrib"]
                 )
                 g.run_command(
-                    ["submodule", "update", "--init", "--recursive", "--remote", "pattern_matching"]
+                    ["submodule", "update", "--init", "--recursive", "--remote", "opencv_novs"]
                 )
         else:
             g.run_command(
@@ -69,7 +69,7 @@ def main():
                     ["submodule", "update", "--init", "--recursive", "opencv_contrib"]
                 )
                 g.run_command(
-                    ["submodule", "update", "--init", "--recursive", "pattern_matching"]
+                    ["submodule", "update", "--init", "--recursive", "opencv_novs"]
                 )
 
     package_version, build_contrib, build_headless, build_rolling = get_and_set_info(
@@ -82,7 +82,7 @@ def main():
     package_name = "opencv_python"
 
     if build_contrib and not build_headless:
-        package_name = "opencv_contrib_python"
+        package_name = "opencv_novs_python"
 
     if build_contrib and build_headless:
         package_name = "opencv_contrib_python_headless"
@@ -519,14 +519,14 @@ def get_and_set_info(contrib, headless, rolling, ci_build):
 
 
 def get_opencv_extra_modules_path():
-    """opencv_contrib modules + New Ocean pattern_matching submodule."""
+    """opencv_contrib modules + New Ocean opencv_novs submodule."""
     paths = []
     contrib_modules = os.path.abspath("opencv_contrib/modules")
-    pattern_matching = os.path.abspath("pattern_matching")
+    opencv_novs = os.path.abspath("opencv_novs")
     if os.path.isdir(contrib_modules):
         paths.append(contrib_modules)
-    if os.path.isdir(pattern_matching):
-        paths.append(pattern_matching)
+    if os.path.isdir(opencv_novs):
+        paths.append(opencv_novs)
     return ";".join(paths)
 
 

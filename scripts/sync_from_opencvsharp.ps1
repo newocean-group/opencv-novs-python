@@ -1,13 +1,13 @@
-# Sync pattern_matching native sources from OpenCvSharp → pattern_matching submodule.
-# After sync: commit/push in pattern_matching, then bump submodule ref in parent.
+# Sync opencv_novs native sources from OpenCvSharp → opencv_novs submodule.
+# After sync: commit/push in opencv_novs, then bump submodule ref in parent.
 param(
     [string]$OpenCvSharpRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..\OpenCvSharp")).Path,
     [string]$OpenCvPythonRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
 )
 $ErrorActionPreference = "Stop"
 $srcDir = Join-Path $OpenCvSharpRoot "src\OpenCvSharpExtern"
-$dstSrc = Join-Path $OpenCvPythonRoot "pattern_matching\src"
-$dstInc = Join-Path $OpenCvPythonRoot "pattern_matching\include\opencv2\pattern_matching"
+$dstSrc = Join-Path $OpenCvPythonRoot "opencv_novs\src"
+$dstInc = Join-Path $OpenCvPythonRoot "opencv_novs\include\opencv2\pattern_matching"
 $files = @(
     "fast_ncc_matcher.cpp", "fast_ncc_matcher.h",
     "match_tool_ncc_matcher.cpp", "match_tool_ncc_matcher.h",
@@ -21,6 +21,6 @@ foreach ($f in $files) {
     }
 }
 # Keep OpenCvPython license stub (do not overwrite)
-Write-Host "Synced pattern_matching sources from $srcDir"
-Write-Host "Next: cd pattern_matching && git commit -am '...' && git push"
-Write-Host "Then: cd .. && git add pattern_matching && git commit -m 'Bump pattern_matching submodule'"
+Write-Host "Synced opencv_novs sources from $srcDir"
+Write-Host "Next: cd opencv_novs && git commit -am '...' && git push"
+Write-Host "Then: cd .. && git add opencv_novs && git commit -m 'Bump opencv_novs submodule'"

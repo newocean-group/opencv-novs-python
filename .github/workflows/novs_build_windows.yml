@@ -1,59 +1,59 @@
-name: New Ocean Windows wheel
-
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: windows-2022
-    timeout-minutes: 180
-    env:
-      CI_BUILD: 1
-      ENABLE_CONTRIB: 1
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          architecture: x64
-
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
-
-      - name: Setup NASM
-        uses: ilammy/setup-nasm@v1
-
-      - name: Build wheel
-        shell: pwsh
-        run: |
-          ./scripts/build_wheel_windows.ps1 -Python python
-
-      - name: Upload wheel
-        uses: actions/upload-artifact@v4
-        with:
-          name: opencv-contrib-python-windows-py312
-          path: dist/*.whl
-          if-no-files-found: error
-
-  verify-submodules:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Check required submodules
-        shell: bash
-        run: |
-          test -f opencv/CMakeLists.txt
-          test -d opencv_contrib/modules
-          test -f pattern_matching/CMakeLists.txt
-          test -f pattern_matching/src/shape_based_matcher.cpp
-          echo "All submodules present."
+name: New Ocean Windows wheel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 180
+    env:
+      CI_BUILD: 1
+      ENABLE_CONTRIB: 1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          architecture: x64
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NASM
+        uses: ilammy/setup-nasm@v1
+
+      - name: Build wheel
+        shell: pwsh
+        run: |
+          ./scripts/build_wheel_windows.ps1 -Python python
+
+      - name: Upload wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: opencv-novs-python
+          path: dist/*.whl
+          if-no-files-found: error
+
+  verify-submodules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Check required submodules
+        shell: bash
+        run: |
+          test -f opencv/CMakeLists.txt
+          test -d opencv_contrib/modules
+          test -f opencv_novs/CMakeLists.txt
+          test -f opencv_novs/src/shape_based_matcher.cpp
+          echo "All submodules present."

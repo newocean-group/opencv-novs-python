@@ -4,6 +4,6 @@
 [submodule "opencv_contrib"]
 	path = opencv_contrib
 	url = https://github.com/opencv/opencv_contrib.git
-[submodule "pattern_matching"]
-	path = pattern_matching
+[submodule "opencv_novs"]
+	path = opencv_novs
 	url = https://github.com/newocean-group/opencv-novs.git
