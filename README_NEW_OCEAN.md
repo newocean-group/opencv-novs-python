@@ -21,7 +21,7 @@ Native sources live in `extra_modules/pattern_matching/` (~9.4k lines C++). Sync
 Requires: Python 3.9+, CMake, Visual Studio Build Tools (Windows) or gcc/clang (Linux), Git.
 
 ```powershell
-git submodule update --init --recursive opencv opencv_contrib
+git submodule update --init --recursive opencv opencv_contrib extra_modules/pattern_matching
 pip install --upgrade pip scikit-build numpy
 # contrib.enabled in repo root enables opencv-contrib modules + pattern_matching
 pip install . -v
@@ -58,7 +58,7 @@ OpenCvPython/                 # this fork (opencv-python CI + packaging)
   opencv/                     # submodule — upstream OpenCV
   opencv_contrib/             # submodule — upstream contrib
   extra_modules/
-    pattern_matching/         # New Ocean — Fast NCC + Shape matcher
+    pattern_matching/         # submodule — New Ocean pattern matcher (opencv-novs-pattern-matching)
   contrib.enabled             # default ON: build contrib + pattern_matching
   scripts/sync_from_opencvsharp.ps1
 ```

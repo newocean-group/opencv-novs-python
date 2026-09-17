@@ -1,4 +1,5 @@
-# Sync pattern_matching native sources from OpenCvSharp → OpenCvPython extra_modules.
+# Sync pattern_matching native sources from OpenCvSharp → pattern_matching submodule.
+# After sync: commit/push in extra_modules/pattern_matching, then bump submodule ref in parent.
 param(
     [string]$OpenCvSharpRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..\OpenCvSharp")).Path,
     [string]$OpenCvPythonRoot = (Resolve-Path (Join-Path $PSScriptRoot "..")).Path
@@ -21,3 +22,5 @@ foreach ($f in $files) {
 }
 # Keep OpenCvPython license stub (do not overwrite)
 Write-Host "Synced pattern_matching sources from $srcDir"
+Write-Host "Next: cd extra_modules/pattern_matching && git commit -am '...' && git push"
+Write-Host "Then: cd ../.. && git add extra_modules/pattern_matching && git commit -m 'Bump pattern_matching submodule'"
