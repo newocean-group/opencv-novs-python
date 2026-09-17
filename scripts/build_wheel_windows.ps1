@@ -20,8 +20,10 @@ $env:ENABLE_CONTRIB = "1"
 if ($Headless) { $env:ENABLE_HEADLESS = "1" }
 "1" | Set-Content contrib.enabled -NoNewline
 
-& $Python -m pip install --upgrade pip scikit-build wheel
+& $Python -m pip install --upgrade pip setuptools scikit-build wheel
 & $Python -m pip install "numpy==2.0.2"
+# OpenCV Windows build: avoid CMake 3.25+ regression with MSVC.
+& $Python -m pip install "cmake==3.24.2"
 # Stale _skbuild caches pip temp paths for NumPy headers; wipe before wheel build.
 if (-not $Incremental -and (Test-Path "_skbuild")) {
     Write-Host "Removing stale _skbuild (NumPy header paths from prior pip env)..."
