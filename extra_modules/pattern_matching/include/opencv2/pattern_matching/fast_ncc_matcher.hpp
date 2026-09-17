@@ -10,7 +10,7 @@
 
 namespace cv {
     namespace pattern_matching {
-        struct CV_EXPORTS_W MatchInfo {
+        struct CV_EXPORTS_W_SIMPLE MatchInfo {
             CV_PROP_RW double score;
             CV_PROP_RW double angle;
             CV_PROP_RW double scale;    // isotropic shortcut; avg when aniso
