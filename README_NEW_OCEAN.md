@@ -41,6 +41,8 @@ pip install . -v
 
 Wheel package name: **`opencv-novs-python`** (`opencv_novs_python-*.whl`; override via `OPENCV_PYTHON_PACKAGE_NAME`).
 
+CI builds Windows wheels for **Python 3.9, 3.11, 3.12** (artifacts: `opencv-novs-python-py3.9`, `opencv-novs-python-py3.11`, `opencv-novs-python-py3.12`).
+
 ## Quick example
 
 ```python
