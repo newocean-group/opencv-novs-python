@@ -57,7 +57,7 @@ See [docs/PatternMatching.md](docs/PatternMatching.md) for tuning (greediness, M
 OpenCvPython/                 # this fork (opencv-python CI + packaging)
   opencv/                     # submodule — upstream OpenCV
   opencv_contrib/             # submodule — upstream contrib
-  pattern_matching/           # submodule — New Ocean pattern matcher (opencv-novs-pattern-matching)
+  pattern_matching/           # submodule — New Ocean pattern matcher (opencv-novs)
   contrib.enabled             # default ON: build contrib + pattern_matching
   scripts/sync_from_opencvsharp.ps1
 ```

@@ -12,4 +12,4 @@
 	url = https://github.com/opencv/opencv_extra.git
 [submodule "pattern_matching"]
 	path = pattern_matching
-	url = https://github.com/newocean-group/opencv-novs-pattern-matching.git
+	url = https://github.com/newocean-group/opencv-novs.git
