@@ -1,6 +1,6 @@
 [![Downloads](https://static.pepy.tech/badge/opencv-python)](http://pepy.tech/project/opencv-python)
 
-> **New Ocean fork:** This repository adds **Fast NCC**, **MatchTool NCC**, and **Halcon-style ShapeBasedMatcher** (same as [OpenCvSharp](https://github.com/newocean-group/OpenCvSharp)). See **[README_NEW_OCEAN.md](README_NEW_OCEAN.md)** and **[docs/PatternMatching.md](docs/PatternMatching.md)**.
+> **opencv-novs-python** — OpenCV Python wheels with New Ocean industrial pattern matching (`FastNCC`, `MatchTool NCC`, Halcon-style `ShapeBasedMatcher`), ported from [OpenCvSharp](https://github.com/newocean-group/OpenCvSharp). Native module: [opencv-novs](https://github.com/newocean-group/opencv-novs). See **[README_NEW_OCEAN.md](README_NEW_OCEAN.md)** and **[docs/PatternMatching.md](docs/PatternMatching.md)**.
 
 ### Keep OpenCV Free
 

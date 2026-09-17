@@ -1,0 +1,57 @@
+name: New Ocean Windows wheel
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 180
+    env:
+      ENABLE_CONTRIB: 1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          architecture: x64
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Install CMake
+        run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System' -y
+
+      - name: Build wheel
+        shell: cmd
+        run: scripts\build_wheel_devcmd.bat
+
+      - name: Upload wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: opencv-contrib-python-windows-py312
+          path: dist/*.whl
+          if-no-files-found: error
+
+  verify-submodules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Check required submodules
+        shell: bash
+        run: |
+          test -f opencv/CMakeLists.txt
+          test -d opencv_contrib/modules
+          test -f pattern_matching/CMakeLists.txt
+          test -f pattern_matching/src/shape_based_matcher.cpp
+          echo "All submodules present."

@@ -1,6 +1,11 @@
-# OpenCvPython (New Ocean fork)
+# opencv-novs-python (New Ocean fork)
 
 Fork of [opencv-python](https://github.com/opencv/opencv-python) with **industrial pattern matching** from [OpenCvSharp](https://github.com/newocean-group/OpenCvSharp) (New Ocean fork of [shimat/opencvsharp](https://github.com/shimat/opencvsharp)).
+
+| Repo | Role |
+|------|------|
+| [opencv-novs-python](https://github.com/newocean-group/opencv-novs-python) | Packaging + wheel build (this repo) |
+| [opencv-novs](https://github.com/newocean-group/opencv-novs) | C++ `pattern_matching` OpenCV module (submodule) |
 
 Same algorithms as OpenCvSharp `OpenCvSharpExtern`:
 
