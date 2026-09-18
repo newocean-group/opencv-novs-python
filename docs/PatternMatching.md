@@ -36,7 +36,8 @@ matcher.train()
 
 hits = matcher.find(scene, 0.7, 10)
 for h in hits:
-    print(h.score, h.angle, h.position)
+    x, y = h.position  # (column, row) — Python binding returns a tuple
+    print(h.score, h.angle, x, y)
 ```
 
 ## Save / load model

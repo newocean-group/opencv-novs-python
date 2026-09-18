@@ -23,7 +23,8 @@ def main():
     hits = matcher.find(scene, 0.5, 5)
     print(f"Found {len(hits)} hit(s)")
     for i, h in enumerate(hits):
-        print(f"  [{i}] score={h.score:.3f} angle={h.angle:.2f} pos=({h.position.x:.1f},{h.position.y:.1f})")
+        x, y = h.position  # Point2d → (col, row) tuple in Python bindings
+        print(f"  [{i}] score={h.score:.3f} angle={h.angle:.2f} pos=({x:.1f},{y:.1f})")
     return 0
 
 
