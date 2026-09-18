@@ -24,43 +24,68 @@ def _scene_bgr(path: str):
     return cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
 
 
-def _template_box_polygon(hit, template_w: int, template_h: int) -> np.ndarray:
-    """Fallback: rotated rect from template size (ShapeMatchWpfDemo secondary overlay)."""
+def _template_rect_polygon(hit, template_w: int, template_h: int) -> np.ndarray:
+    """Place the template rectangle on the scene at the matched pose.
+
+    Template geometry is an axis-aligned W×H rectangle in model space.
+    Native find() reports ``position`` as the rectangle centre, plus angle
+    and optional anisotropic scale — same convention as OpenCvSharp
+    ``RotatedRect(hit.Position, Size2f(W*ScaleC, H*ScaleR), hit.Angle)``.
+    """
     x, y = hit.position
     scale_r = float(getattr(hit, "scaleR", 1.0))
     scale_c = float(getattr(hit, "scaleC", 1.0))
     size = (float(template_w * scale_c), float(template_h * scale_r))
-    rect = ((float(x), float(y)), size, float(hit.angle))
-    return np.int32(cv2.boxPoints(rect))
+    center = (float(x), float(y))
+    angle = float(hit.angle)
+    return np.int32(np.round(cv2.boxPoints((center, size, angle))))
 
 
-def _hit_polygon(matcher, hit, template_w: int, template_h: int) -> np.ndarray:
-    """Polygon from transformed model contours (OpenCvSharp GetShapeModelContours)."""
-    x, y = hit.position
-    scale_r = float(getattr(hit, "scaleR", 1.0))
-    scale_c = float(getattr(hit, "scaleC", 1.0))
-    model_id = int(getattr(hit, "modelId", 0))
-    n, contour = matcher.getShapeModelContours(
-        hit.angle, 0, scale_r, scale_c, model_id, x, y, hit.angle, True
+def _label_pos_above_polygon(poly: np.ndarray, text: str, gap: int = 10):
+    """Place label fully above the polygon so it does not overlap the border."""
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    font_scale = 0.85
+    thickness = 2
+    pad = 4
+    (tw_label, th_label), baseline = cv2.getTextSize(text, font, font_scale, thickness)
+
+    x_min = int(poly[:, 0].min())
+    x_max = int(poly[:, 0].max())
+    y_min = int(poly[:, 1].min())
+
+    tx = int((x_min + x_max - tw_label) / 2)
+    # Bottom of label background sits above the topmost polygon edge.
+    ty = y_min - gap - baseline - pad
+    return tx, ty, font, font_scale, thickness, tw_label, th_label, baseline, pad
+
+
+def _draw_label(out, text: str, poly: np.ndarray, color):
+    tx, ty, font, font_scale, thickness, tw_label, th_label, baseline, pad = (
+        _label_pos_above_polygon(poly, text)
     )
-    if n > 0 and contour is not None and contour.size >= 6:
-        pts = contour.reshape(-1, 2).astype(np.float32)
-        return cv2.convexHull(pts).astype(np.int32)
-    return _template_box_polygon(hit, template_w, template_h)
+    cv2.rectangle(
+        out,
+        (tx - pad, ty - th_label - pad),
+        (tx + tw_label + pad, ty + baseline + pad),
+        (0, 0, 0),
+        -1,
+    )
+    cv2.putText(out, text, (tx, ty), font, font_scale, color, thickness, cv2.LINE_AA)
 
 
-def _draw_hit(out, matcher, hit, index: int, template_w: int, template_h: int):
+def _draw_hit(out, hit, index: int, template_w: int, template_h: int):
     color = HIT_COLORS[index % len(HIT_COLORS)]
-    poly = _hit_polygon(matcher, hit, template_w, template_h)
-    cv2.polylines(out, [poly], isClosed=True, color=color, thickness=2, lineType=cv2.LINE_AA)
+    poly = _template_rect_polygon(hit, template_w, template_h)
 
     x, y = hit.position
     cx, cy = int(round(x)), int(round(y))
     cv2.drawMarker(out, (cx, cy), color, markerType=cv2.MARKER_CROSS, markerSize=12, thickness=2)
+
     label = f"#{index} s={hit.score:.3f} a={hit.angle:.1f}"
-    cv2.putText(
-        out, label, (cx + 8, cy - 8), cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 1, cv2.LINE_AA
-    )
+    _draw_label(out, label, poly, color)
+
+    # Draw polygon after label so the border is never covered by the text background.
+    cv2.polylines(out, [poly], isClosed=True, color=color, thickness=2, lineType=cv2.LINE_AA)
 
 
 def _result_path(scene_path: str) -> Path:
@@ -82,7 +107,8 @@ def main():
         print("Failed to read images")
         return 1
 
-    th, tw = template.shape[:2]
+    # Template is a concrete axis-aligned rectangle (polygon with 4 corners).
+    template_h, template_w = template.shape[:2]
 
     pm = cv2.pattern_matching
     matcher = pm.ShapeBasedMatcher_create()
@@ -95,7 +121,7 @@ def main():
     for i, h in enumerate(hits):
         x, y = h.position
         print(f"  [{i}] score={h.score:.3f} angle={h.angle:.2f} pos=({x:.1f},{y:.1f})")
-        _draw_hit(scene_vis, matcher, h, i, tw, th)
+        _draw_hit(scene_vis, h, i, template_w, template_h)
 
     out_path = _result_path(sys.argv[2])
     if not cv2.imwrite(str(out_path), scene_vis):
