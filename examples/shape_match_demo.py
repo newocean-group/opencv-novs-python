@@ -16,7 +16,7 @@ def main():
 
     pm = cv2.pattern_matching
     matcher = pm.ShapeBasedMatcher_create()
-    matcher.setTemplate(template)
+    matcher.setTemplate(template, None)  # None = full template (no ROI mask)
     matcher.setAngleRange(-10, 10)
     matcher.train()
 

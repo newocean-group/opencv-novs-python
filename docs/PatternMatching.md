@@ -28,7 +28,7 @@ template = cv2.imread("part_template.png", cv2.IMREAD_GRAYSCALE)
 scene = cv2.imread("scene.png", cv2.IMREAD_GRAYSCALE)
 
 matcher = cv2.pattern_matching.ShapeBasedMatcher_create()
-matcher.setTemplate(template)
+matcher.setTemplate(template, None)  # None = no mask (use full template)
 matcher.setAngleRange(-180, 180)
 matcher.angleStep = 0  # auto (Halcon-style)
 matcher.metric = cv2.pattern_matching.SHAPE_MATCH_USE_POLARITY
