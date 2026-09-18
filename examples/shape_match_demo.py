@@ -24,8 +24,8 @@ def _scene_bgr(path: str):
     return cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
 
 
-def _template_polygon(hit, template_w: int, template_h: int) -> np.ndarray:
-    """Rotated rectangle (4 corners) — match position is template centre."""
+def _template_box_polygon(hit, template_w: int, template_h: int) -> np.ndarray:
+    """Fallback: rotated rect from template size (ShapeMatchWpfDemo secondary overlay)."""
     x, y = hit.position
     scale_r = float(getattr(hit, "scaleR", 1.0))
     scale_c = float(getattr(hit, "scaleC", 1.0))
@@ -34,9 +34,24 @@ def _template_polygon(hit, template_w: int, template_h: int) -> np.ndarray:
     return np.int32(cv2.boxPoints(rect))
 
 
-def _draw_hit(out, hit, index: int, template_w: int, template_h: int):
+def _hit_polygon(matcher, hit, template_w: int, template_h: int) -> np.ndarray:
+    """Polygon from transformed model contours (OpenCvSharp GetShapeModelContours)."""
+    x, y = hit.position
+    scale_r = float(getattr(hit, "scaleR", 1.0))
+    scale_c = float(getattr(hit, "scaleC", 1.0))
+    model_id = int(getattr(hit, "modelId", 0))
+    n, contour = matcher.getShapeModelContours(
+        hit.angle, 0, scale_r, scale_c, model_id, x, y, hit.angle, True
+    )
+    if n > 0 and contour is not None and contour.size >= 6:
+        pts = contour.reshape(-1, 2).astype(np.float32)
+        return cv2.convexHull(pts).astype(np.int32)
+    return _template_box_polygon(hit, template_w, template_h)
+
+
+def _draw_hit(out, matcher, hit, index: int, template_w: int, template_h: int):
     color = HIT_COLORS[index % len(HIT_COLORS)]
-    poly = _template_polygon(hit, template_w, template_h)
+    poly = _hit_polygon(matcher, hit, template_w, template_h)
     cv2.polylines(out, [poly], isClosed=True, color=color, thickness=2, lineType=cv2.LINE_AA)
 
     x, y = hit.position
@@ -55,8 +70,10 @@ def _result_path(scene_path: str) -> Path:
 
 def main():
     if len(sys.argv) < 3:
-        print("Usage: shape_match_demo.py <template.png> <scene.png>")
+        print("Usage: shape_match_demo.py <template.png> <scene.png> [maxTargets]")
         return 1
+
+    max_targets = int(sys.argv[3]) if len(sys.argv) > 3 else 5
 
     template = cv2.imread(sys.argv[1], cv2.IMREAD_GRAYSCALE)
     scene_vis = _scene_bgr(sys.argv[2])
@@ -73,12 +90,12 @@ def main():
     matcher.setAngleRange(-10, 10)
     matcher.train()
 
-    hits = matcher.find(scene_gray, 0.5, 5)
-    print(f"Found {len(hits)} hit(s)")
+    hits = matcher.find(scene_gray, 0.5, max_targets)
+    print(f"Found {len(hits)} hit(s) (maxTargets={max_targets})")
     for i, h in enumerate(hits):
         x, y = h.position
         print(f"  [{i}] score={h.score:.3f} angle={h.angle:.2f} pos=({x:.1f},{y:.1f})")
-        _draw_hit(scene_vis, h, i, tw, th)
+        _draw_hit(scene_vis, matcher, h, i, tw, th)
 
     out_path = _result_path(sys.argv[2])
     if not cv2.imwrite(str(out_path), scene_vis):
